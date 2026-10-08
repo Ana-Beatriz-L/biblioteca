@@ -8,6 +8,5 @@ CREATE TABLE IF NOT EXISTS livro (
     id_LIVRO        SERIAL PRIMARY KEY,
     titulo          VARCHAR(150) NOT NULL,
     ano_publicacao  INTEGER NOT NULL,
-    autor_id        INTEGER NOT NULL,
     FOREIGN KEY (autor_id) REFERENCES autor(id_AUTOR) ON DELETE CASCADE
 );
