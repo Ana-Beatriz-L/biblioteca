@@ -10,14 +10,12 @@ class LivroModel:
             print("Erro ao conectar ao banco:", e)
 
     def _rollback(self):
-        """Desfaz a transação em caso de erro (evita o banco travar)."""
         try:
             self.conexao.rollback()
         except Exception:
             pass
 
     def listar_livros(self):
-        """Retorna (id, titulo, ano_publicacao, nome_do_autor) usando JOIN."""
         try:
             cursor = self.conexao.cursor()
             cursor.execute(
@@ -34,7 +32,6 @@ class LivroModel:
             return []
 
     def autor_existe(self, autor_id):
-        """True se existe um autor com esse id."""
         try:
             cursor = self.conexao.cursor()
             cursor.execute(
@@ -50,7 +47,6 @@ class LivroModel:
             return False
 
     def livro_existe(self, id_livro):
-        """True se existe um livro com esse id."""
         try:
             cursor = self.conexao.cursor()
             cursor.execute(
@@ -66,7 +62,6 @@ class LivroModel:
             return False
 
     def inserir_livro(self, titulo, ano_publicacao, autor_id):
-        """Retorna True se salvou, False se deu erro."""
         try:
             cursor = self.conexao.cursor()
             cursor.execute(
@@ -83,7 +78,6 @@ class LivroModel:
             return False
 
     def atualizar_livro(self, id_livro, titulo, ano_publicacao, autor_id):
-        """Retorna True se atualizou, False se deu erro."""
         try:
             cursor = self.conexao.cursor()
             cursor.execute(
@@ -100,7 +94,6 @@ class LivroModel:
             return False
 
     def excluir_livro(self, id_livro):
-        """Retorna True se excluiu, False se deu erro."""
         try:
             cursor = self.conexao.cursor()
             cursor.execute(

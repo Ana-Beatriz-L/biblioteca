@@ -10,7 +10,6 @@ class LivroController:
         self.view = LivroView()
 
     def menu(self):
-        """Submenu em loop até o usuário escolher 'Voltar'."""
         while True:
             opcao = self.view.exibir_menu()
             if opcao == "1":
@@ -27,8 +26,6 @@ class LivroController:
                 self.view.mostrar_mensagem("Opção inválida. Tente novamente.")
 
     def _validar_dados(self, titulo, ano, autor_id):
-        """Retorna (ano, autor_id) como inteiros se estiver tudo certo.
-        Se algo estiver errado, mostra a mensagem e retorna None."""
         if not titulo:
             self.view.mostrar_mensagem("O título é obrigatório!")
             return None

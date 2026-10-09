@@ -12,14 +12,12 @@ class LivroView:
         print(texto)
 
     def ler_dados_livro(self):
-        """Devolve tudo como texto; o controller é quem valida."""
         titulo = input("Título: ").strip()
         ano = input("Ano de publicação: ").strip()
         autor_id = input("ID do autor: ").strip()
         return titulo, ano, autor_id
 
     def ler_id(self, acao):
-        """Pede o ID do livro. Devolve int ou None se digitou algo inválido."""
         try:
             return int(input(f"Informe o ID do livro a {acao}: "))
         except ValueError:

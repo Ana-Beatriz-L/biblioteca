@@ -32,6 +32,5 @@ class Autor:
 
     @classmethod
     def excluir(cls, id):
-        """DELETE do autor. Atenção: falha se ele tiver livros (RESTRICT)."""
         # TODO
         raise NotImplementedError

@@ -1,10 +1,9 @@
-"""Conexão com o PostgreSQL. Usada por todos os models."""
 import os
 
 import psycopg2
 from dotenv import load_dotenv
 
-load_dotenv()  # lê o arquivo .env (que NÃO vai pro GitHub)
+load_dotenv()  # lê o arquivo .env
 
 
 def get_connection():
