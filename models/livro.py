@@ -1,38 +1,116 @@
-"""Model do Livro (PESSOA 2). Só acessa o banco, nada de print/input aqui."""
 from database import get_connection
 
 
-class Livro:
-    def __init__(self, titulo, ano_publicacao, autor_id, id=None):
-        self.id = id
-        self.titulo = titulo
-        self.ano_publicacao = ano_publicacao
-        self.autor_id = autor_id
+class LivroModel:
+    def __init__(self):
+        self.conexao = None
+        try:
+            self.conexao = get_connection()
+        except Exception as e:
+            print("Erro ao conectar ao banco:", e)
 
-    def salvar(self):
-        """INSERT do livro; preenche self.id com o id gerado."""
-        # TODO
-        raise NotImplementedError
+    def _rollback(self):
+        """Desfaz a transação em caso de erro (evita o banco travar)."""
+        try:
+            self.conexao.rollback()
+        except Exception:
+            pass
 
-    @classmethod
-    def listar_com_autor(cls):
-        """JOIN com autor. Retorna tuplas (id, titulo, ano_publicacao, nome_autor)."""
-        # TODO
-        raise NotImplementedError
+    def listar_livros(self):
+        """Retorna (id, titulo, ano_publicacao, nome_do_autor) usando JOIN."""
+        try:
+            cursor = self.conexao.cursor()
+            cursor.execute(
+                "SELECT l.id_livro, l.titulo, l.ano_publicacao, a.nome, a.id_autor "
+                "FROM livro l JOIN autor a ON a.id_autor = l.autor_id "
+                "ORDER BY l.id_livro;"
+            )
+            livros = cursor.fetchall()
+            cursor.close()
+            return livros
+        except Exception as e:
+            print("Erro ao listar livros:", e)
+            self._rollback()
+            return []
 
-    @classmethod
-    def buscar_por_id(cls, id):
-        """Retorna um Livro ou None se não existir."""
-        # TODO
-        raise NotImplementedError
+    def autor_existe(self, autor_id):
+        """True se existe um autor com esse id."""
+        try:
+            cursor = self.conexao.cursor()
+            cursor.execute(
+                "SELECT 1 FROM autor WHERE id_autor = %s;",
+                (autor_id,),
+            )
+            existe = cursor.fetchone() is not None
+            cursor.close()
+            return existe
+        except Exception as e:
+            print("Erro ao verificar autor:", e)
+            self._rollback()
+            return False
 
-    def atualizar(self):
-        """UPDATE do livro com base em self.id."""
-        # TODO
-        raise NotImplementedError
+    def livro_existe(self, id_livro):
+        """True se existe um livro com esse id."""
+        try:
+            cursor = self.conexao.cursor()
+            cursor.execute(
+                "SELECT 1 FROM livro WHERE id_livro = %s;",
+                (id_livro,),
+            )
+            existe = cursor.fetchone() is not None
+            cursor.close()
+            return existe
+        except Exception as e:
+            print("Erro ao verificar livro:", e)
+            self._rollback()
+            return False
 
-    @classmethod
-    def excluir(cls, id):
-        """DELETE do livro."""
-        # TODO
-        raise NotImplementedError
+    def inserir_livro(self, titulo, ano_publicacao, autor_id):
+        """Retorna True se salvou, False se deu erro."""
+        try:
+            cursor = self.conexao.cursor()
+            cursor.execute(
+                "INSERT INTO livro (titulo, ano_publicacao, autor_id) "
+                "VALUES (%s, %s, %s);",
+                (titulo, ano_publicacao, autor_id),
+            )
+            self.conexao.commit()
+            cursor.close()
+            return True
+        except Exception as e:
+            print("Erro ao inserir livro:", e)
+            self._rollback()
+            return False
+
+    def atualizar_livro(self, id_livro, titulo, ano_publicacao, autor_id):
+        """Retorna True se atualizou, False se deu erro."""
+        try:
+            cursor = self.conexao.cursor()
+            cursor.execute(
+                "UPDATE livro SET titulo = %s, ano_publicacao = %s, autor_id = %s "
+                "WHERE id_livro = %s;",
+                (titulo, ano_publicacao, autor_id, id_livro),
+            )
+            self.conexao.commit()
+            cursor.close()
+            return True
+        except Exception as e:
+            print("Erro ao atualizar livro:", e)
+            self._rollback()
+            return False
+
+    def excluir_livro(self, id_livro):
+        """Retorna True se excluiu, False se deu erro."""
+        try:
+            cursor = self.conexao.cursor()
+            cursor.execute(
+                "DELETE FROM livro WHERE id_livro = %s;",
+                (id_livro,),
+            )
+            self.conexao.commit()
+            cursor.close()
+            return True
+        except Exception as e:
+            print("Erro ao excluir livro:", e)
+            self._rollback()
+            return False
