@@ -1,6 +1,3 @@
-"""View do Livro (PESSOA 2). Só print/input, nada de banco aqui."""
-
-
 class LivroView:
     def exibir_menu(self):
         print("\nGerenciar Livro")
@@ -11,20 +8,31 @@ class LivroView:
         print("5. Voltar ao menu principal")
         return input("Escolha uma opção: ").strip()
 
-    def mostrar_mensagem(self, mensagem):
-        print(mensagem)
+    def mostrar_mensagem(self, texto):
+        print(texto)
 
     def ler_dados_livro(self):
-        """Pede título, ano e id do autor. Retorna (titulo, ano, autor_id)."""
-        # TODO
-        raise NotImplementedError
+        """Devolve tudo como texto; o controller é quem valida."""
+        titulo = input("Título: ").strip()
+        ano = input("Ano de publicação: ").strip()
+        autor_id = input("ID do autor: ").strip()
+        return titulo, ano, autor_id
 
     def ler_id(self, acao):
-        """Pede o id do livro para a ação (atualizar/excluir). Retorna int."""
-        # TODO
-        raise NotImplementedError
+        """Pede o ID do livro. Devolve int ou None se digitou algo inválido."""
+        try:
+            return int(input(f"Informe o ID do livro a {acao}: "))
+        except ValueError:
+            print("ID inválido! Deve ser um número inteiro.")
+            return None
 
-    def mostrar_livros(self, livros):
-        """Imprime a lista de livros (id, título, ano, nome do autor)."""
-        # TODO
-        raise NotImplementedError
+    def mostrar_livros(self, lista):
+        print("\n=== Lista de Livros ===")
+        if not lista:
+            print("Nenhum livro encontrado.")
+        else:
+            for livro in lista:
+                print(
+                    f"ID do Livro: {livro[0]} | Título: {livro[1]} | "
+                    f"Ano: {livro[2]} | Autor: {livro[3]} | ID do Autor: {livro[4]}"
+                )

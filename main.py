@@ -1,4 +1,3 @@
-"""Ponto de entrada do sistema."""
 from controllers.autor_controller import AutorController
 from controllers.livro_controller import LivroController
 from views.menu_principal import MenuPrincipalView
