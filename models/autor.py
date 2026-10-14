@@ -1,6 +1,7 @@
 from database import get_connection
 
 class Autor:
+    _conexao = None
     def __init__(self, nome, nacionalidade, id=None):
         self.id = id
         self.nome = nome

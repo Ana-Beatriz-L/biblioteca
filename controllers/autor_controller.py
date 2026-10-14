@@ -37,8 +37,8 @@ class AutorController:
             nome, nacionalidade = self.view.ler_dados_autor()
             if not self._validar_dados(nome, nacionalidade):
                 return
-                Autor(nome, nacionalidade).salvar()
-                self.view.mostrar_mensagem("Autor cadastrado com sucesso!")
+            Autor(nome, nacionalidade).salvar()
+            self.view.mostrar_mensagem("Autor cadastrado com sucesso!")
         except Exception as e:
             self.view.mostrar_mensagem(f"Erro ao cadastrar autor: {e}")
 
