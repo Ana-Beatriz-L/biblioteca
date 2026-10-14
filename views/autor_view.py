@@ -1,6 +1,3 @@
-"""View do Autor (PESSOA 1). Só print/input, nada de banco aqui."""
-
-
 class AutorView:
     def exibir_menu(self):
         print("\nGerenciar Autor")
@@ -15,16 +12,24 @@ class AutorView:
         print(mensagem)
 
     def ler_dados_autor(self):
-        """Pede nome e nacionalidade. Retorna (nome, nacionalidade)."""
-        # TODO
-        raise NotImplementedError
+        nome = input("Nome do autor: ").strip()
+        nacionalidade = input("Nacionalidade: ").strip()
+        return nome, nacionalidade
 
     def ler_id(self, acao):
-        """Pede o id do autor para a ação (atualizar/excluir). Retorna int."""
-        # TODO
-        raise NotImplementedError
+        try:
+            return int(input(f"Informe o ID do autor a {acao}: "))
+        except ValueError:
+            print("ID inválido! Deve ser um número inteiro.")
+            return None
 
     def mostrar_autores(self, autores):
-        """Imprime a lista de autores."""
-        # TODO
-        raise NotImplementedError
+        print("\n=== Lista de Autores ===")
+        if not autores:
+            print("Nenhum autor encontrado.")
+        else:
+            for autor in autores:
+                print(
+                    f"ID do Autor: {autor.id} | Nome: {autor.nome} | "
+                    f"Nacionalidade: {autor.nacionalidade}"
+                )
