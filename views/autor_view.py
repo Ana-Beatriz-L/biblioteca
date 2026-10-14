@@ -17,7 +17,7 @@ class AutorView:
         return nome, nacionalidade
 
     def ler_id(self, acao):
-          try:
+        try:
             return int(input(f"Informe o ID do autor a {acao}: "))
         except ValueError:
             print("ID inválido! Deve ser um número inteiro.")
